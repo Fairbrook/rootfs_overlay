@@ -1,0 +1,6 @@
+SUBSYSTEM=="block", ACTION=="add", ENV{ID_TYPE}="disk", ENV{DEVTYPE}=="partition",\
+  PROGRAM="/usr/bin/systemd-escape -p --template=performance_checker@.service $env{DEVNAME}",\
+  ENV{SYSTEMD_WANTS}+="%c"
+
+SUBSYSTEM=="block", ACTION=="remove", ENV{ID_TYPE}="disk", ENV{DEVTYPE}=="partition",\
+  RUN+="/bin/bash -c 'rm -r /run/media/*'"

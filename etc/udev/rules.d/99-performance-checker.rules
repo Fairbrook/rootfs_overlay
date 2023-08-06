@@ -3,4 +3,4 @@ SUBSYSTEM=="block", ACTION=="add", ENV{ID_TYPE}="disk", ENV{DEVTYPE}=="partition
   ENV{SYSTEMD_WANTS}+="%c"
 
 SUBSYSTEM=="block", ACTION=="remove", ENV{ID_TYPE}="disk", ENV{DEVTYPE}=="partition",\
-  RUN+="/bin/bash -c 'rm -r /run/media/*'"
+  RUN+="/bin/bash -c 'rm -r /run/media/$env{DEVNAME}'"

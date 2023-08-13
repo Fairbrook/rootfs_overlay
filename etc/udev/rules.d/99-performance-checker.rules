@@ -1,6 +1,14 @@
-SUBSYSTEM=="block", ACTION=="add", ENV{ID_TYPE}="disk", ENV{DEVTYPE}=="partition",\
-  PROGRAM="/usr/bin/systemd-escape -p --template=performance_checker@.service $env{DEVNAME}",\
+SUBSYSTEM=="block", ACTION=="add", ENV{ID_TYPE}="disk", ENV{ID_BUS}=="usb",\
+  ENV{DEVTYPE}=="partition",\
+  PROGRAM="/usr/bin/systemd-escape -p --template=mount@.service $env{DEVNAME}",\
   ENV{SYSTEMD_WANTS}+="%c"
 
-SUBSYSTEM=="block", ACTION=="remove", ENV{ID_TYPE}="disk", ENV{DEVTYPE}=="partition",\
-  RUN+="/bin/bash -c 'rm -r /run/media/$env{DEVNAME}'"
+SUBSYSTEM=="block", ACTION=="add", ENV{ID_TYPE}="disk", ENV{ID_BUS}=="usb",\
+  ENV{DEVTYPE}=="partition",\
+  PROGRAM="/usr/bin/systemd-escape -p --template=performance_checker@.timer $env{DEVNAME}",\
+  ENV{SYSTEMD_WANTS}+="%c"
+
+SUBSYSTEM=="block", ACTION=="remove", ENV{ID_TYPE}=="disk", ENV{ID_BUS}=="usb",\
+  ENV{DEVTYPE}=="partition",\
+  PROGRAM="/usr/bin/systemd-escape -p --template=umount@.service $env{DEVNAME}",\
+  RUN+="/bin/bash -c 'systemctl start %c"

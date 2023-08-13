@@ -1,0 +1,8 @@
+[Unit]
+BindTo=%i.device
+After=%i.device
+
+[Timer]
+Unit=performance_checker@%i.service
+OnCalendar=*:*:0/5
+AccuracySec=1s

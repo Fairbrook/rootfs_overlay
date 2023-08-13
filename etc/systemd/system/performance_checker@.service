@@ -1,8 +1,6 @@
 [Unit]
-BindTo=%i.device
-After=%i.device
+After=mount@%i.service
 
 [Service]
-Type=oneshot
-TimeoutStartSec=300
-ExecStart=/bin/bash -c "mkdir -p /run/media/%I && mount /%I /run/media/%I"
+ConditionPathIsMountPoint = /run/media/%I
+ExecStart=/bin/bash -c "/sbin/run_performance_checker /run/media/%I"

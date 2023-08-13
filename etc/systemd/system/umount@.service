@@ -1,0 +1,6 @@
+[Unit]
+
+[Service]
+Type=oneshot
+ExecStartPre=/bin/umount "/run/media/%I"
+ExecStart=/bin/rm -r "/run/media/%I"
